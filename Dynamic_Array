@@ -1,0 +1,43 @@
+class DynamicArray:
+    def __init__(self):
+        self.size = 0         # Current number of elements in DynamicArray
+        self.capacity = 1     # Current capacity of underlying list
+        self.arr = [None]     # Underlying list for storage
+
+    def __len__(self):
+        return self.size
+
+    def __getitem__(self, index):
+        if index < 0 or index >= self.size:
+            raise IndexError("Index out of bounds")
+        return self.arr[index]
+
+    def append(self, item):
+        # Check if resize is needed
+        if self.size == self.capacity:
+            self.resize(2 * self.capacity)
+
+        self.arr[self.size] = item
+        self.size += 1
+
+    def resize(self, new_capacity):
+        new_arr = [None] * new_capacity
+        for i in range(self.size):
+            new_arr[i] = self.arr[i]
+        self.arr = new_arr
+        self.capacity = new_capacity
+
+    def __str__(self):
+        return str(self.arr[:self.size])
+
+# Test the DynamicArray class
+if __name__ == "__main__":
+    dyn_arr = DynamicArray()
+    print(f"Initial size: {len(dyn_arr)}, Array: {dyn_arr}")
+
+    for i in range(10):
+        dyn_arr.append(i)
+        print(f"Size: {len(dyn_arr)}, Array: {dyn_arr}")
+
+    # Access elements using index
+    print(f"Element at index 5: {dyn_arr[5]}")
